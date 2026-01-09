@@ -30,4 +30,16 @@ public class UserRestController {
         UserResponseDTO.SignupDTO result = userService.signup(userRequestDTO);
         return BaseResponse.onSuccess(SuccessStatus.SIGNUP, result);
     }
+
+    @PostMapping("/login")
+    @Operation(summary = "로그인 API", description = "로그인")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "USER_200", description = "OK, 성공적으로 조회되었습니다.")
+    })
+    public BaseResponse<UserResponseDTO.LoginDTO> login(
+            @RequestBody @Valid UserRequestDTO.LoginDTO userRequestDTO
+    ) {
+        UserResponseDTO.LoginDTO result = userService.login(userRequestDTO);
+        return BaseResponse.onSuccess(SuccessStatus.LOGIN, result);
+    }
 }

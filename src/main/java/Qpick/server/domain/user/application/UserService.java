@@ -6,4 +6,6 @@ import Qpick.server.domain.user.dto.UserResponseDTO;
 public interface UserService {
 
     UserResponseDTO.SignupDTO signup(UserRequestDTO.SignupDTO request);
+
+    UserResponseDTO.LoginDTO login(UserRequestDTO.LoginDTO request);
 }

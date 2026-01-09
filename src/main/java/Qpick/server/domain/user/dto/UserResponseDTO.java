@@ -19,4 +19,14 @@ public class UserResponseDTO {
         private String nickname;
         private LocalDateTime createdAt;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginDTO {
+        private Long userId;
+        private String accessToken;
+        private String refreshToken;
+    }
 }

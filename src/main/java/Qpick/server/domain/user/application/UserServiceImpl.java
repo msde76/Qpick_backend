@@ -7,6 +7,7 @@ import Qpick.server.domain.user.dto.UserRequestDTO;
 import Qpick.server.domain.user.dto.UserResponseDTO;
 import Qpick.server.domain.user.exception.userException;
 import Qpick.server.global.error.code.status.ErrorStatus;
+import Qpick.server.global.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder; // 보안 적용 시 주석 해제
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     @Transactional
@@ -39,5 +41,25 @@ public class UserServiceImpl implements UserService {
 
         // 4. Response DTO 반환
         return UserConverter.toSignupDTO(savedUser);
+    }
+
+    @Override
+    @Transactional
+    public UserResponseDTO.LoginDTO login(UserRequestDTO.LoginDTO request) {
+
+        // 1. 이메일로 유저 찾기 (없으면 예외 발생)
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new userException(ErrorStatus.MEMBER_NOT_FOUND));
+
+        // 2. 비밀번호 검증 (입력한 비번 vs DB의 암호화된 비번)
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new userException(ErrorStatus.PASSWORD_NOT_MATCH);
+        }
+
+        // 3. 토큰 생성
+        String accessToken = jwtTokenProvider.createAccessToken(user.getId(), user.getEmail());
+        String refreshToken = jwtTokenProvider.createRefreshToken(user.getId());
+
+        return UserConverter.toLoginDTO(user, accessToken, refreshToken);
     }
 }

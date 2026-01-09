@@ -26,4 +26,12 @@ public class UserConverter {
                 .createdAt(LocalDateTime.now()) // 혹은 user.getCreatedAt() (JPA Auditing 적용 시)
                 .build();
     }
+
+    public static UserResponseDTO.LoginDTO toLoginDTO(User user, String accessToken, String refreshToken) {
+        return UserResponseDTO.LoginDTO.builder()
+                .userId(user.getId())
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
 }

@@ -23,6 +23,11 @@ spring:
     openai:
       api-key: sk-dummy-key-for-startup
 
+jwt:
+  secret: "vmfhalwtptkdqoffo1234567890qpicksecretkeybase64encodedstring"
+  access-token-validity-in-seconds: 3600      # 1시간
+  refresh-token-validity-in-seconds: 604800   # 7일
+
 logging:
   level:
     org.hibernate.SQL: debug
