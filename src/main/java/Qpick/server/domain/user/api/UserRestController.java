@@ -8,6 +8,7 @@ import Qpick.server.global.error.code.status.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -41,5 +42,17 @@ public class UserRestController {
     ) {
         UserResponseDTO.LoginDTO result = userService.login(userRequestDTO);
         return BaseResponse.onSuccess(SuccessStatus.LOGIN, result);
+    }
+
+    @GetMapping("/me")
+    @Operation(summary = "내 정보 조회 API", description = "특정 사용자의 정보를 조회한다")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse( responseCode = "USER_200", description = "OK, 성공적으로 조회되었습니다.")
+    })
+    public BaseResponse<UserResponseDTO.UserInfoDTO> userInfo(
+            @AuthenticationPrincipal Long userId
+    ) {
+        UserResponseDTO.UserInfoDTO result = userService.userInfo(userId);
+        return BaseResponse.onSuccess(SuccessStatus.USERINFO, result);
     }
 }

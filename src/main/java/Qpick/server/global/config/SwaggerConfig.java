@@ -33,8 +33,8 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI goormStudyAPI() {
         Info info = new Info()
-                .title("fridge API")
-                .description("fridge API 명세서")
+                .title("Qpick API")
+                .description("Qpick API 명세서")
                 .version("1.0.0");
 
         String jwtSchemeName = "JWT TOKEN";

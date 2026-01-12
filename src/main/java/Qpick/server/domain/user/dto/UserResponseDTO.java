@@ -29,4 +29,15 @@ public class UserResponseDTO {
         private String accessToken;
         private String refreshToken;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UserInfoDTO {
+        private Long userId;
+        private String email;
+        private String nickname;
+        private Long point;
+    }
 }

@@ -62,4 +62,21 @@ public class UserServiceImpl implements UserService {
 
         return UserConverter.toLoginDTO(user, accessToken, refreshToken);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserResponseDTO.UserInfoDTO userInfo(Long userId) {
+
+        // 1. null 체크 로직
+        if (userId == null) {
+            throw new userException(ErrorStatus.MEMBER_NOT_FOUND);
+        }
+
+        // 2. DB에서 유저 조회
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new userException(ErrorStatus.MEMBER_NOT_FOUND));
+
+        // 3. DTO 변환 후 반환
+        return UserConverter.toUserInfoDTO(user);
+    }
 }
