@@ -9,10 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/products")
@@ -31,5 +28,17 @@ public class ProductRestController {
     ) {
         ProductResponseDTO.ProductRegisterDTO result = productService.productRegister(productRegisterDTO);
         return BaseResponse.onSuccess(SuccessStatus.REGISTER, result);
+    }
+
+    @GetMapping("")
+    @Operation(summary = "상품 목록 조회 API", description = "등록된 상품들을 최신순으로 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "OK, 성공적으로 조회되었습니다.")
+    })
+    public BaseResponse<ProductResponseDTO.ProductListDTO> getProducts(
+            @RequestParam(name = "page") Integer page
+    ) {
+        ProductResponseDTO.ProductListDTO result = productService.getProducts(page);
+        return BaseResponse.onSuccess(SuccessStatus.PRODUCT_INFO, result);
     }
 }

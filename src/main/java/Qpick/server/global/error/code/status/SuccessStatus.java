@@ -17,7 +17,9 @@ public enum SuccessStatus implements BaseCode {
     USERINFO(HttpStatus.OK, "USER_202", "성공적으로 유저 정보를 조회했습니다."),
 
     //Product
-    REGISTER(HttpStatus.CREATED, "PRODUCT_200", "성공적으로 상품을 등록했습니다.");
+    REGISTER(HttpStatus.CREATED, "PRODUCT_200", "성공적으로 상품을 등록했습니다."),
+    PRODUCT_INFO(HttpStatus.OK, "PRODUCT_201", "성공적으로 상품을 조회했습니다.");
+
 
     private final HttpStatus httpStatus;
     private final String code;

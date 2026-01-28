@@ -7,6 +7,9 @@ import Qpick.server.domain.product.dto.ProductRequestDTO;
 import Qpick.server.domain.product.dto.ProductResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,5 +32,19 @@ public class ProductServiceImpl implements ProductService {
 
         // 3. 응답 DTO 반환
         return ProductConverter.toRegisterDTO(savedProduct);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ProductResponseDTO.ProductListDTO getProducts(Integer page) {
+
+        // 1. PageRequest 생성
+        PageRequest pageRequest = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        // 2. Repository 호출
+        Page<Product> productPage = productRepository.findAll(pageRequest);
+
+        // 3. 변환해서 반환
+        return ProductConverter.toProductListDTO(productPage);
     }
 }
