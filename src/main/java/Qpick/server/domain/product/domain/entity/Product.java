@@ -2,6 +2,8 @@ package Qpick.server.domain.product.domain.entity;
 
 import Qpick.server.domain.model.entity.BaseTimeEntity;
 import Qpick.server.domain.model.enums.ProductStatus;
+import Qpick.server.domain.product.exception.productException;
+import Qpick.server.global.error.code.status.ErrorStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -30,6 +32,8 @@ public class Product extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer stockQuantity;
 
+    private String description;
+
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
@@ -41,10 +45,11 @@ public class Product extends BaseTimeEntity {
     private Long version;
 
     @Builder
-    public Product(String name, Long price, Integer stockQuantity, LocalDateTime startTime, LocalDateTime endTime) {
+    public Product(String name, Long price, Integer stockQuantity, String description, LocalDateTime startTime, LocalDateTime endTime) {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
+        this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = ProductStatus.READY;
@@ -53,7 +58,7 @@ public class Product extends BaseTimeEntity {
     // 비즈니스 로직: 재고 감소
     public void decreaseStock(int quantity) {
         if (this.stockQuantity - quantity < 0) {
-            throw new IllegalArgumentException("재고가 부족합니다."); // 커스텀 Exception으로 변경 추천
+            throw new productException(ErrorStatus._BAD_REQUEST);
         }
         this.stockQuantity -= quantity;
     }

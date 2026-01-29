@@ -8,4 +8,6 @@ public interface ProductService {
     ProductResponseDTO.ProductRegisterDTO productRegister(ProductRequestDTO.ProductRegisterDTO request);
 
     ProductResponseDTO.ProductListDTO getProducts(Integer page);
+
+    ProductResponseDTO.ProductInfoDTO getProductInfo(Long productId);
 }

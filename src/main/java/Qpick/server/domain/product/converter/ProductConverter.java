@@ -18,6 +18,7 @@ public class ProductConverter {
                 .name(request.getName())
                 .price(request.getPrice())
                 .stockQuantity(request.getStockQuantity())
+                .description(request.getDescription())
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
                 .build();
@@ -56,6 +57,18 @@ public class ProductConverter {
                 .totalPage(productPage.getTotalPages())
                 .totalElements(productPage.getTotalElements())
                 .listSize(productList.size())
+                .build();
+    }
+
+    public static ProductResponseDTO.ProductInfoDTO toProductInfoDTO(Product product) {
+        return ProductResponseDTO.ProductInfoDTO.builder()
+                .productId(product.getId())
+                .name(product.getName())
+                .price(product.getPrice())
+                .stockQuantity(product.getStockQuantity())
+                .description(product.getDescription()) // Entity에 설명 필드가 있다면 추가
+                .startTime(product.getStartTime())
+                .endTime(product.getEndTime())
                 .build();
     }
 }

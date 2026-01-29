@@ -5,6 +5,8 @@ import Qpick.server.domain.product.domain.entity.Product;
 import Qpick.server.domain.product.domain.repository.ProductRepository;
 import Qpick.server.domain.product.dto.ProductRequestDTO;
 import Qpick.server.domain.product.dto.ProductResponseDTO;
+import Qpick.server.domain.product.exception.productException;
+import Qpick.server.global.error.code.status.ErrorStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -46,5 +48,17 @@ public class ProductServiceImpl implements ProductService {
 
         // 3. 변환해서 반환
         return ProductConverter.toProductListDTO(productPage);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ProductResponseDTO.ProductInfoDTO getProductInfo(Long productId) {
+
+        // 1. 상품 찾기
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new productException(ErrorStatus.PRODUCT_NOT_FOUND));
+
+        // 2. 변환 후 반환
+        return ProductConverter.toProductInfoDTO(product);
     }
 }

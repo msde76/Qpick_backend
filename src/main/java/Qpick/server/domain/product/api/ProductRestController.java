@@ -41,4 +41,16 @@ public class ProductRestController {
         ProductResponseDTO.ProductListDTO result = productService.getProducts(page);
         return BaseResponse.onSuccess(SuccessStatus.PRODUCT_INFO, result);
     }
+
+    @GetMapping("{productId}")
+    @Operation(summary = "상품 상세 조회 API", description = "특정 상품의 상세 정보를 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "OK, 성공적으로 조회되었습니다.")
+    })
+    public BaseResponse<ProductResponseDTO.ProductInfoDTO> getProductInfo(
+            @PathVariable Long productId
+    ) {
+        ProductResponseDTO.ProductInfoDTO result = productService.getProductInfo(productId);
+        return BaseResponse.onSuccess(SuccessStatus.PRODUCT_INFO, result);
+    }
 }
