@@ -66,9 +66,18 @@ public class ProductConverter {
                 .name(product.getName())
                 .price(product.getPrice())
                 .stockQuantity(product.getStockQuantity())
-                .description(product.getDescription()) // Entity에 설명 필드가 있다면 추가
+                .description(product.getDescription())
                 .startTime(product.getStartTime())
                 .endTime(product.getEndTime())
+                .build();
+    }
+
+    public static ProductResponseDTO.AIChatDTO toAIChatDTO(Product product, String question, String answer) {
+        return ProductResponseDTO.AIChatDTO.builder()
+                .productId(product.getId())
+                .productName(product.getName())
+                .question(question)
+                .answer(answer)
                 .build();
     }
 }

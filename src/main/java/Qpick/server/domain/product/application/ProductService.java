@@ -10,4 +10,6 @@ public interface ProductService {
     ProductResponseDTO.ProductListDTO getProducts(Integer page);
 
     ProductResponseDTO.ProductInfoDTO getProductInfo(Long productId);
+
+    ProductResponseDTO.AIChatDTO productAI(Long productId, ProductRequestDTO.AIChatRequestDTO request);
 }

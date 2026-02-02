@@ -42,7 +42,7 @@ public class ProductRestController {
         return BaseResponse.onSuccess(SuccessStatus.PRODUCT_INFO, result);
     }
 
-    @GetMapping("{productId}")
+    @GetMapping("/{productId}")
     @Operation(summary = "상품 상세 조회 API", description = "특정 상품의 상세 정보를 조회합니다.")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "OK, 성공적으로 조회되었습니다.")
@@ -52,5 +52,18 @@ public class ProductRestController {
     ) {
         ProductResponseDTO.ProductInfoDTO result = productService.getProductInfo(productId);
         return BaseResponse.onSuccess(SuccessStatus.PRODUCT_INFO, result);
+    }
+
+    @PostMapping("/{productId}/chat")
+    @Operation(summary = "AI 상품 상담 API", description = "상품에 대한 질문을 AI에게 상담합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "OK, 성공적으로 조회되었습니다.")
+    })
+    public BaseResponse<ProductResponseDTO.AIChatDTO> productAI(
+            @PathVariable Long productId,
+            @RequestBody @Valid ProductRequestDTO.AIChatRequestDTO request
+    ) {
+        ProductResponseDTO.AIChatDTO result = productService.productAI(productId, request);
+        return BaseResponse.onSuccess(SuccessStatus.PRODUCT_AI, result);
     }
 }

@@ -54,9 +54,20 @@ public class ProductResponseDTO {
         private String name;
         private Long price;
         private Integer stockQuantity;
-        private String description; // 상품 상세 설명 (Entity에 있다고 가정)
+        private String description;
         // private String imageUrl; // 나중에 이미지 생기면 추가
         private LocalDateTime startTime;
         private LocalDateTime endTime;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AIChatDTO {
+        private Long productId;
+        private String productName;
+        private String question;
+        private String answer;
     }
 }

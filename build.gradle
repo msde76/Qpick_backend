@@ -1,12 +1,11 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.9'
+	id 'org.springframework.boot' version '3.5.8'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'Qpick'
 version = '0.0.1-SNAPSHOT'
-description = 'Demo project for Spring Boot'
 
 java {
 	toolchain {
@@ -14,38 +13,22 @@ java {
 	}
 }
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
-
 repositories {
 	mavenCentral()
 }
 
-ext {
-	set('springAiVersion', "1.1.2")
-}
-
 dependencies {
-	// Web & Validation
+	// Web (RestClient 포함됨)
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
-	// Data (JPA & MySQL)
+	// Data (JPA, MySQL)
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
-	// Redis
+	// Redis & Kafka
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
-	// Kafka
 	implementation 'org.springframework.kafka:spring-kafka'
-
-	// AI
-	implementation 'org.springframework.ai:spring-ai-starter-model-openai'
 
 	// Security & JWT
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -53,23 +36,16 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
-	// Swagger UI
+	// Swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
 
-	// Utils (Lombok)
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
 	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-
-dependencyManagement {
-	imports {
-		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
-	}
 }
 
 tasks.named('test') {

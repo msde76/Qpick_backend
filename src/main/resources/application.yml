@@ -20,8 +20,9 @@ spring:
   #     port: 6379
 
   ai:
-    openai:
-      api-key: sk-dummy-key-for-startup
+    gemini:
+      api-key: ${GEMINI_API_KEY}
+      url: ${GEMINI_URL}
 
 jwt:
   secret: "vmfhalwtptkdqoffo1234567890qpicksecretkeybase64encodedstring"
