@@ -2,6 +2,7 @@ package Qpick.server.domain.Order.domain.entity;
 
 import Qpick.server.domain.model.entity.BaseTimeEntity;
 import Qpick.server.domain.model.enums.OrderStatus;
+import Qpick.server.domain.product.domain.entity.Product;
 import Qpick.server.domain.user.domain.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -24,6 +25,13 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @Column(nullable = false)
+    private Integer quantity;
+
     @Column(nullable = false)
     private Long totalPrice;
 
@@ -31,8 +39,10 @@ public class Order extends BaseTimeEntity {
     private OrderStatus status;
 
     @Builder
-    public Order(User user, Long totalPrice) {
+    public Order(User user, Product product, Integer quantity, Long totalPrice) {
         this.user = user;
+        this.product = product;
+        this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.status = OrderStatus.PENDING;
     }

@@ -19,7 +19,10 @@ public enum SuccessStatus implements BaseCode {
     //Product
     REGISTER(HttpStatus.CREATED, "PRODUCT_200", "성공적으로 상품을 등록했습니다."),
     PRODUCT_INFO(HttpStatus.OK, "PRODUCT_201", "성공적으로 상품을 조회했습니다."),
-    PRODUCT_AI(HttpStatus.CREATED, "PRODUCT_202", "성공적으로 답변을 반환했습니다.");
+    PRODUCT_AI(HttpStatus.CREATED, "PRODUCT_202", "성공적으로 답변을 반환했습니다."),
+
+    // Order
+    ORDER(HttpStatus.CREATED, "ORDER_200", "성공적으로 상품을 주문했습니다.");
 
 
     private final HttpStatus httpStatus;
