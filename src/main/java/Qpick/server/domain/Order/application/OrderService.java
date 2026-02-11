@@ -7,4 +7,6 @@ import Qpick.server.domain.user.domain.entity.User;
 public interface OrderService {
 
     OrderResponseDTO.ProductOrderDTO productOrder(User user, OrderRequestDTO.ProductOrderDTO request);
+
+    OrderResponseDTO.ProductOrderInfoDTO getProductOrder(User user, Long orderId);
 }

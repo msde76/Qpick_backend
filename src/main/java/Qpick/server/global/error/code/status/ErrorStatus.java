@@ -20,7 +20,10 @@ public enum ErrorStatus implements BaseErrorCode {
     PASSWORD_NOT_MATCH(HttpStatus.NOT_FOUND, "MEMBER4003", "비밀번호가 맞지 않습니다."),
 
     // Product
-    PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "PRODUCT4001", "상품을 찾을 수 없습니다.");
+    PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "PRODUCT4001", "상품을 찾을 수 없습니다."),
+
+    // Order
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "ORDER4001", "주문을 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

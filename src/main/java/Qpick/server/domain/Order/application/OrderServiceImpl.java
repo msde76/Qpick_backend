@@ -45,4 +45,21 @@ public class OrderServiceImpl implements OrderService {
         // 5. 응답 반환
         return OrderConverter.toProductOrderDTO(newOrder);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OrderResponseDTO.ProductOrderInfoDTO getProductOrder(User user, Long orderId) {
+
+        // 1. 주문 조회 (없으면 예외 발생)
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new orderException(ErrorStatus.ORDER_NOT_FOUND)); // 에러코드 확인 필요
+
+        // 2. 내 주문이 맞는지 검증
+        if (!order.getUser().getId().equals(user.getId())) {
+            throw new orderException(ErrorStatus._FORBIDDEN);
+        }
+
+        // 3. DTO 변환 및 반환
+        return OrderConverter.toProductOrderInfoDTO(order);
+    }
 }

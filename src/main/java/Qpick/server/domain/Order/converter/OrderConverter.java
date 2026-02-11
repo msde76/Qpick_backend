@@ -30,4 +30,20 @@ public class OrderConverter {
                 .orderedAt(order.getCreatedAt()) // BaseEntity 상속 가정
                 .build();
     }
+
+    public static OrderResponseDTO.ProductOrderInfoDTO toProductOrderInfoDTO(Order order) {
+        return OrderResponseDTO.ProductOrderInfoDTO.builder()
+                // 주문 정보 매핑
+                .orderId(order.getId())
+                .orderedAt(order.getCreatedAt())
+                .quantity(order.getQuantity())
+                .totalPrice(order.getTotalPrice())
+                .status(order.getStatus().name()) // Enum -> String 변환
+
+                // 상품 정보 매핑
+                .productId(order.getProduct().getId())
+                .productName(order.getProduct().getName())
+                .price(order.getProduct().getPrice())
+                .build();
+    }
 }

@@ -1,7 +1,9 @@
 package Qpick.server.global.resolver;
 
 import Qpick.server.domain.user.domain.entity.User;
+import Qpick.server.domain.user.exception.userException;
 import Qpick.server.global.annotation.AuthUser;
+import Qpick.server.global.error.code.status.ErrorStatus;
 import Qpick.server.global.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -33,16 +35,13 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || authentication.getPrincipal() == null) {
-            throw new RuntimeException("인증 정보가 없습니다."); // 적절한 예외 처리 필요
+        // 👇 [중요] 인증 정보가 없으면 null을 리턴하지 말고, 예외를 터뜨려야 합니다!
+        if (authentication == null || authentication.getPrincipal() == null || !(authentication.getPrincipal() instanceof CustomUserDetails)) {
+            // 여기서 예외를 던지면 "로그인 하세요"라는 401/403 에러가 나갑니다.
+            throw new userException(ErrorStatus._UNAUTHORIZED);
         }
 
-        // CustomUserDetails에서 User 엔티티 추출
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof CustomUserDetails) {
-            return ((CustomUserDetails) principal).getUser();
-        }
-
-        return null; // 혹은 예외 발생
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        return userDetails.getUser();
     }
 }

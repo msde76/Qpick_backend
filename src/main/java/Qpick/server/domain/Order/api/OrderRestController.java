@@ -14,10 +14,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
@@ -37,5 +34,18 @@ public class OrderRestController {
     ) {
         OrderResponseDTO.ProductOrderDTO result = orderService.productOrder(user, request);
         return BaseResponse.onSuccess(SuccessStatus.ORDER, result);
+    }
+
+    @GetMapping("/{orderId}")
+    @Operation(summary = "상품 주문 단건 조회 API", description = "특정 상품 주문을 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "OK, 성공적으로 주문이 조회되었습니다.")
+    })
+    public BaseResponse<OrderResponseDTO.ProductOrderInfoDTO> getProductOrder(
+            @Parameter(hidden = true) @AuthUser User user,
+            @PathVariable(name = "orderId") Long orderId
+    ) {
+        OrderResponseDTO.ProductOrderInfoDTO result = orderService.getProductOrder(user, orderId);
+        return BaseResponse.onSuccess(SuccessStatus.ORDER_INFO, result);
     }
 }
