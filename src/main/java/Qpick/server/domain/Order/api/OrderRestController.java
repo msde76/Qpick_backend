@@ -3,8 +3,6 @@ package Qpick.server.domain.Order.api;
 import Qpick.server.domain.Order.application.OrderService;
 import Qpick.server.domain.Order.dto.OrderRequestDTO;
 import Qpick.server.domain.Order.dto.OrderResponseDTO;
-import Qpick.server.domain.product.dto.ProductRequestDTO;
-import Qpick.server.domain.product.dto.ProductResponseDTO;
 import Qpick.server.domain.user.domain.entity.User;
 import Qpick.server.global.annotation.AuthUser;
 import Qpick.server.global.common.response.BaseResponse;
