@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class OrderResponseDTO {
 
@@ -38,5 +39,31 @@ public class OrderResponseDTO {
         private Long productId;
         private String productName;
         private Long price; // 상품 1개 가격
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class OrderPreviewDTO {
+        private Long orderId;
+        private String productName;
+        private Integer quantity;
+        private Long totalPrice;
+        private String status;
+        private LocalDateTime orderedAt;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class OrdersDTO {
+        private List<OrderPreviewDTO> orderList;
+        private Integer listSize;      // 현재 페이지의 데이터 개수
+        private Integer totalPage;     // 전체 페이지 수
+        private Long totalElements;    // 전체 데이터 총 개수
+        private Boolean isFirst;       // 첫 번째 페이지인지 여부
+        private Boolean isLast;        // 마지막 페이지인지 여부
     }
 }

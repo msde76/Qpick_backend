@@ -9,10 +9,11 @@ import Qpick.server.domain.Order.exception.orderException;
 import Qpick.server.domain.product.domain.entity.Product;
 import Qpick.server.domain.product.domain.repository.ProductRepository;
 import Qpick.server.domain.user.domain.entity.User;
-import Qpick.server.domain.user.domain.repository.UserRepository;
 import Qpick.server.global.error.code.status.ErrorStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderServiceImpl implements OrderService {
 
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
     private final OrderRepository orderRepository;
 
     @Override
@@ -61,5 +61,18 @@ public class OrderServiceImpl implements OrderService {
 
         // 3. DTO 변환 및 반환
         return OrderConverter.toProductOrderInfoDTO(order);
+    }
+
+    @Override
+    public OrderResponseDTO.OrdersDTO getOrders(User user, Integer page) {
+
+        // 1. 페이징 설정: (조회할 페이지 번호, 한 페이지당 데이터 개수)
+        PageRequest pageRequest = PageRequest.of(page, 10); // 한 페이지당 10개씩 가져오기
+
+        // 2. Repository 조회 (Page 객체 반환)
+        Page<Order> orderPage = orderRepository.findAllByUserOrderByCreatedAtDesc(user, pageRequest);
+
+        // 3. Converter를 통해 DTO 반환
+        return OrderConverter.toOrdersDTO(orderPage);
     }
 }

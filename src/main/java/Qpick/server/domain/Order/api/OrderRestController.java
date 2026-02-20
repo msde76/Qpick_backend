@@ -48,4 +48,17 @@ public class OrderRestController {
         OrderResponseDTO.ProductOrderInfoDTO result = orderService.getProductOrder(user, orderId);
         return BaseResponse.onSuccess(SuccessStatus.ORDER_INFO, result);
     }
+
+    @GetMapping("")
+    @Operation(summary = "내 주문 내역 조회 API", description = "특정 회원의 주문 목록을 조회합니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "OK, 성공적으로 주문이 조회되었습니다.")
+    })
+    public BaseResponse<OrderResponseDTO.OrdersDTO> getOrders(
+            @Parameter(hidden = true) @AuthUser User user,
+            @RequestParam(name = "page", defaultValue = "0") Integer page
+    ) {
+        OrderResponseDTO.OrdersDTO result = orderService.getOrders(user, page);
+        return BaseResponse.onSuccess(SuccessStatus.ORDERS, result);
+    }
 }

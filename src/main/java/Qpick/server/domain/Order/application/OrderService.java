@@ -9,4 +9,6 @@ public interface OrderService {
     OrderResponseDTO.ProductOrderDTO productOrder(User user, OrderRequestDTO.ProductOrderDTO request);
 
     OrderResponseDTO.ProductOrderInfoDTO getProductOrder(User user, Long orderId);
+
+    OrderResponseDTO.OrdersDTO getOrders(User user, Integer page);
 }

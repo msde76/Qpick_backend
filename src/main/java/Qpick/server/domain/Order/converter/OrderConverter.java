@@ -6,7 +6,11 @@ import Qpick.server.domain.Order.dto.OrderResponseDTO;
 import Qpick.server.domain.product.domain.entity.Product;
 import Qpick.server.domain.user.domain.entity.User;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderConverter {
@@ -44,6 +48,32 @@ public class OrderConverter {
                 .productId(order.getProduct().getId())
                 .productName(order.getProduct().getName())
                 .price(order.getProduct().getPrice())
+                .build();
+    }
+
+    public static OrderResponseDTO.OrderPreviewDTO toOrderPreviewDTO(Order order) {
+        return OrderResponseDTO.OrderPreviewDTO.builder()
+                .orderId(order.getId())
+                .productName(order.getProduct().getName()) // N+1 문제 주의 (fetch join 권장)
+                .quantity(order.getQuantity())
+                .totalPrice(order.getTotalPrice())
+                .status(order.getStatus().name())
+                .orderedAt(order.getCreatedAt())
+                .build();
+    }
+
+    public static OrderResponseDTO.OrdersDTO toOrdersDTO(Page<Order> orderPage) {
+        List<OrderResponseDTO.OrderPreviewDTO> orderPreviewDTOList = orderPage.stream()
+                .map(OrderConverter::toOrderPreviewDTO)
+                .collect(Collectors.toList());
+
+        return OrderResponseDTO.OrdersDTO.builder()
+                .orderList(orderPreviewDTOList)
+                .listSize(orderPreviewDTOList.size())
+                .totalPage(orderPage.getTotalPages())       // 전체 페이지 수
+                .totalElements(orderPage.getTotalElements()) // 전체 데이터 수
+                .isFirst(orderPage.isFirst())               // 첫 페이지 여부
+                .isLast(orderPage.isLast())                 // 마지막 페이지 여부
                 .build();
     }
 }
